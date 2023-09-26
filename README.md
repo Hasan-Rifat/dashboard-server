@@ -1,8 +1,8 @@
-# The challenge for me has been to integrate the verification system using jwt
+- The challenge for me has been to integrate the verification system using jwt
 
-# Sending mail within Gmail was a challenging part for me
+- Sending mail within Gmail was a challenging part for me
 
-# And the image storage part in the cloud was more challenging for me as I implemented cloudinary for the first time in my life.
+- And the image storage part in the cloud was more challenging for me as I implemented cloudinary for the first time in my life.
 
 ## Documentation
 
