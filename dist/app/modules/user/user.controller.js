@@ -95,7 +95,7 @@ const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
             statusCode: http_status_1.default.CREATED,
             success: true,
             message: 'Create user success',
-            data: { user, activationLink },
+            data: user,
         });
     }
     catch (error) {
@@ -116,6 +116,12 @@ const activeAccount = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.file) {
+        throw new Error('Please upload a file');
+    }
+    const uploadResult = yield cloudinary_1.default.uploader.upload(req.file.path);
+    // Update req.body.image with the uploaded image URL
+    req.body.image = uploadResult.secure_url;
     const result = yield user_services_1.UserService.updateUser(req.params.id, req.body);
     if (!result) {
         throw new Error('User not found');

@@ -101,7 +101,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
       statusCode: httpStatus.CREATED,
       success: true,
       message: 'Create user success',
-      data: { user, activationLink },
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -124,6 +124,15 @@ const activeAccount = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
+  if (!req.file) {
+    throw new Error('Please upload a file');
+  }
+
+  const uploadResult = await cloudinary.uploader.upload(req.file.path);
+
+  // Update req.body.image with the uploaded image URL
+  req.body.image = uploadResult.secure_url;
+
   const result = await UserService.updateUser(req.params.id, req.body);
   if (!result) {
     throw new Error('User not found');

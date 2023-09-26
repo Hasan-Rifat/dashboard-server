@@ -30,7 +30,7 @@ const sendVerifyMail = (name, email, token) => __awaiter(void 0, void 0, void 0,
             from: config_1.default.nodemailer.user,
             to: email,
             subject: 'Verify your account',
-            html: `<h1>Hi ${name}</h1><br><p>Click this link to verify your account: <a href="http://localhost:5000/api/v1/user/active-account/${token}">Verify</a></p>
+            html: `<h1>Hi ${name}</h1><br><p>Click this link to verify your account: <a href="https://dashboard-server-xi-nine.vercel.app/api/v1/user/active-account/${token}">Verify</a></p>
       <p>your email ${email}</p>
       `,
         };
