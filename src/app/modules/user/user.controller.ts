@@ -125,6 +125,10 @@ const activeAccount = catchAsync(async (req, res) => {
 
 const updateUser = catchAsync(async (req, res) => {
   const result = await UserService.updateUser(req.params.id, req.body);
+  if (!result) {
+    throw new Error('User not found');
+  }
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
