@@ -2,7 +2,9 @@
   "name": "dashboard-server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.ts",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
