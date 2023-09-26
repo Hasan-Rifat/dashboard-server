@@ -15,7 +15,7 @@
 - product setup commands
 
 ```
-install all packages  | yarn 0r npm i
+install all packages - yarn | npm i
 
 run - yarn dev | npm run dev
 
