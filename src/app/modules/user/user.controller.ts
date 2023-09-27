@@ -8,6 +8,8 @@ import cloudinary from '../../../shared/cloudinary';
 import nodemailer from 'nodemailer';
 import sendVerifyMail from '../../../shared/sendVerifyMail';
 import ApiError from '../../../errors/ApiError';
+import { JwtPayload } from 'jsonwebtoken';
+import { payload } from './user.interface';
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
@@ -152,6 +154,16 @@ const deleteUser = catchAsync(async (req, res) => {
   });
 });
 
+const getMe = catchAsync(async (req, res) => {
+  const result = await UserService.getMe(req.user as payload);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Get me success',
+    data: result,
+  });
+});
+
 export const UserController = {
   login,
   logOut,
@@ -162,4 +174,5 @@ export const UserController = {
   createUser,
   updateUser,
   deleteUser,
+  getMe,
 };

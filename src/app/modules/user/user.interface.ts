@@ -3,6 +3,12 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 
 export const UserRole = ['admin', 'user'];
 
+export type payload = {
+  id: string;
+  role: string;
+  email: string;
+};
+
 export type IUser = {
   _id: string;
   name: string;

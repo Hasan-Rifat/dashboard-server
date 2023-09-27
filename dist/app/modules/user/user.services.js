@@ -78,6 +78,10 @@ const activeAccount = (activationLink) => __awaiter(void 0, void 0, void 0, func
     }, { new: true });
     return { updatedUser, message: 'Active account success' };
 });
+const getMe = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const me = yield user_model_1.User.findById(user.id).select('-password -createdAt -updatedAt');
+    return me;
+});
 exports.UserService = {
     login,
     refreshAccessToken,
@@ -87,4 +91,5 @@ exports.UserService = {
     updateUser,
     activeAccount,
     deleteUser,
+    getMe,
 };

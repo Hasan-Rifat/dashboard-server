@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
-import { IUser } from './user.interface';
+import { IUser, payload } from './user.interface';
 import { User } from './user.model';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import config from '../../../config';
@@ -129,6 +129,14 @@ const activeAccount = async (activationLink: string) => {
   return { updatedUser, message: 'Active account success' };
 };
 
+const getMe = async (user: payload): Promise<IUser | null> => {
+  const me = await User.findById(user.id).select(
+    '-password -createdAt -updatedAt'
+  );
+
+  return me;
+};
+
 export const UserService = {
   login,
   refreshAccessToken,
@@ -138,4 +146,5 @@ export const UserService = {
   updateUser,
   activeAccount,
   deleteUser,
+  getMe,
 };

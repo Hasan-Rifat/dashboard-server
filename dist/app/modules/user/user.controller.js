@@ -138,6 +138,15 @@ const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getMe = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_services_1.UserService.getMe(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Get me success',
+        data: result,
+    });
+}));
 exports.UserController = {
     login,
     logOut,
@@ -148,4 +157,5 @@ exports.UserController = {
     createUser,
     updateUser,
     deleteUser,
+    getMe,
 };
