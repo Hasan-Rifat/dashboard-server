@@ -100,7 +100,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,
-      message: 'Create user success',
+      message: 'Create user success please check your email to verify account',
       data: user,
     });
   } catch (error) {

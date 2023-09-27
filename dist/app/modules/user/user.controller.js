@@ -94,7 +94,7 @@ const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.CREATED,
             success: true,
-            message: 'Create user success',
+            message: 'Create user success please check your email to verify account',
             data: user,
         });
     }
