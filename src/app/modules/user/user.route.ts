@@ -10,7 +10,6 @@ router.get('/', UserController.getAllUsers);
 router.post('/login', UserController.login);
 router.post(
   '/create-user',
-  uploader.single('image'),
   validateRequest(UserValidation.create),
   UserController.createUser
 );
@@ -20,7 +19,6 @@ router.get('/refresh-token', UserController.refreshAccessToken);
 router.get('/:id', UserController.getUserById);
 router.patch(
   '/:id',
-  uploader.single('image'),
   validateRequest(UserValidation.update),
   UserController.updateUser
 );

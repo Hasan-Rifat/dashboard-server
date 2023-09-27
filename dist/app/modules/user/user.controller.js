@@ -82,13 +82,9 @@ const getUserById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
 }));
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!req.file) {
-            throw new Error('Please upload a file');
-        }
-        const uploadResult = yield cloudinary_1.default.uploader.upload(req.file.path);
+        const uploadResult = yield cloudinary_1.default.uploader.upload(req.body.image);
         // Update req.body.image with the uploaded image URL
         req.body.image = uploadResult.secure_url;
-        // Continue with your code (e.g., save the uploaded file data to the database)
         const { user, activationLink } = yield user_services_1.UserService.createUser(req.body);
         yield (0, sendVerifyMail_1.default)(user.name, user.email, activationLink);
         (0, sendResponse_1.default)(res, {

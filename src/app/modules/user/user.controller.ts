@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 import cloudinary from '../../../shared/cloudinary';
 import nodemailer from 'nodemailer';
 import sendVerifyMail from '../../../shared/sendVerifyMail';
+import ApiError from '../../../errors/ApiError';
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
@@ -85,16 +86,11 @@ const getUserById = catchAsync(async (req, res) => {
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   try {
-    if (!req.file) {
-      throw new Error('Please upload a file');
-    }
-
-    const uploadResult = await cloudinary.uploader.upload(req.file.path);
+    const uploadResult = await cloudinary.uploader.upload(req.body.image);
 
     // Update req.body.image with the uploaded image URL
     req.body.image = uploadResult.secure_url;
 
-    // Continue with your code (e.g., save the uploaded file data to the database)
     const { user, activationLink } = await UserService.createUser(req.body);
     await sendVerifyMail(user.name, user.email, activationLink);
     sendResponse(res, {
