@@ -24,6 +24,28 @@ build - yarn build | npm run build
 
 ```
 
+# features
+
+## User Registration:
+
+- Implement a registration form with the following fields:
+  - Name
+  - Email
+  - Phone
+  - Image (profile picture)
+  - Date of Birth (DOB)
+
+## Authentication and Authorization:
+
+- Implement user authentication using JWT.
+- Users should be able to log in and log out.
+
+## Email Verification:
+
+- Upon successful registration, send an email verification link to the user's provided email address.
+- Implement an endpoint that handles email verification using JWT.
+- Users should only be able to access the admin panel after email verification.
+
 ## packages
 
 - express
