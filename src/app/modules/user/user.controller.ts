@@ -17,10 +17,6 @@ const login = catchAsync(async (req, res) => {
   const cookieOptions = {
     secure: config.env === 'production',
     httpOnly: true,
-    domain:
-      config.env === 'production'
-        ? 'https://dashboard-client-sigma.vercel.app'
-        : undefined,
   };
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -55,10 +51,7 @@ const refreshAccessToken = catchAsync(async (req, res) => {
 
   const cookieOptions = {
     httpOnly: true,
-    domain:
-      config.env === 'production'
-        ? 'https://dashboard-client-sigma.vercel.app'
-        : undefined,
+
     secure: process.env.NODE_ENV === 'production',
   };
 

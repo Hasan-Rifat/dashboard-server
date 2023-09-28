@@ -27,9 +27,6 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
     const cookieOptions = {
         secure: config_1.default.env === 'production',
         httpOnly: true,
-        domain: config_1.default.env === 'production'
-            ? 'https://dashboard-client-sigma.vercel.app'
-            : undefined,
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
     res.cookie('accessToken', accessToken, cookieOptions);
@@ -56,9 +53,6 @@ const refreshAccessToken = (0, catchAsync_1.default)((req, res) => __awaiter(voi
     const { accessToken } = result;
     const cookieOptions = {
         httpOnly: true,
-        domain: config_1.default.env === 'production'
-            ? 'https://dashboard-client-sigma.vercel.app'
-            : undefined,
         secure: process.env.NODE_ENV === 'production',
     };
     res.cookie('accessToken', accessToken, cookieOptions);
