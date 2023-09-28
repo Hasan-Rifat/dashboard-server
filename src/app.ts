@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      'https://dashboard-client-sigma.vercel.app/',
+      'https://dashboard-client-sigma.vercel.app',
     ],
     credentials: true,
   })
