@@ -20,8 +20,9 @@ router.post(
   UserController.createUser
 );
 
-router.get('/logout', UserController.logOut);
+router.post('/logout', UserController.logOut);
 router.get('/refresh-token', UserController.refreshAccessToken);
+
 router.get('/:id', UserController.getUserById);
 router.patch(
   '/:id',

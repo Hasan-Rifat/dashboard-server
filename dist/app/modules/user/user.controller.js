@@ -23,7 +23,7 @@ const sendVerifyMail_1 = __importDefault(require("../../../shared/sendVerifyMail
 const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     const result = yield user_services_1.UserService.login(email, password);
-    const { accessToken, refreshToken } = result;
+    const { accessToken, refreshToken, user } = result;
     const cookieOptions = {
         secure: config_1.default.env === 'production',
         httpOnly: false,
@@ -35,6 +35,7 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
         success: true,
         message: 'Login success',
         token: accessToken,
+        data: user,
     });
 }));
 const logOut = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

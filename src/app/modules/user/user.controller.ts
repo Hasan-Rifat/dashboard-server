@@ -5,17 +5,14 @@ import { UserService } from './user.services';
 import config from '../../../config';
 import { Request, Response } from 'express';
 import cloudinary from '../../../shared/cloudinary';
-import nodemailer from 'nodemailer';
 import sendVerifyMail from '../../../shared/sendVerifyMail';
-import ApiError from '../../../errors/ApiError';
-import { JwtPayload } from 'jsonwebtoken';
 import { payload } from './user.interface';
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const result = await UserService.login(email, password);
 
-  const { accessToken, refreshToken } = result;
+  const { accessToken, refreshToken, user } = result;
 
   const cookieOptions = {
     secure: config.env === 'production',
@@ -30,6 +27,7 @@ const login = catchAsync(async (req, res) => {
     success: true,
     message: 'Login success',
     token: accessToken,
+    data: user,
   });
 });
 

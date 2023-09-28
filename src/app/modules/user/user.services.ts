@@ -21,6 +21,7 @@ const login = async (
   email: string,
   password: string
 ): Promise<{
+  user: Partial<IUser> | null;
   accessToken: string;
   refreshToken: string;
 }> => {
@@ -53,7 +54,12 @@ const login = async (
     config.jwt.refresh_expires_in as string
   );
 
+  const user = await User.findOne({ email }).select(
+    '-password -createdAt -updatedAt'
+  );
+
   return {
+    user,
     accessToken,
     refreshToken,
   };

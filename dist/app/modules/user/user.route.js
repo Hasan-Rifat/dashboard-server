@@ -15,7 +15,7 @@ router.get('/', user_controller_1.UserController.getAllUsers);
 router.get('/me', (0, auth_1.default)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.USER), user_controller_1.UserController.getMe);
 router.post('/login', user_controller_1.UserController.login);
 router.post('/create-user', (0, validateRequest_1.default)(user_validation_1.UserValidation.create), user_controller_1.UserController.createUser);
-router.get('/logout', user_controller_1.UserController.logOut);
+router.post('/logout', user_controller_1.UserController.logOut);
 router.get('/refresh-token', user_controller_1.UserController.refreshAccessToken);
 router.get('/:id', user_controller_1.UserController.getUserById);
 router.patch('/:id', (0, validateRequest_1.default)(user_validation_1.UserValidation.update), user_controller_1.UserController.updateUser);

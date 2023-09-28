@@ -40,7 +40,9 @@ const login = (email, password) => __awaiter(void 0, void 0, void 0, function* (
     const accessToken = jwtHelpers_1.jwtHelpers.createToken({ id: isUserExist._id, role: isUserExist.role, email: isUserExist.email }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     // create refresh token
     const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ id: isUserExist._id, role: isUserExist.role, email: isUserExist.email }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
+    const user = yield user_model_1.User.findOne({ email }).select('-password -createdAt -updatedAt');
     return {
+        user,
         accessToken,
         refreshToken,
     };
