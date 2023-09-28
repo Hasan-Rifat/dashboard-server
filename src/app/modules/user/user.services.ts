@@ -85,7 +85,10 @@ const refreshAccessToken = async (
 
 const createUser = async (
   userData: IUser
-): Promise<{ user: IUser; activationLink: string }> => {
+): Promise<{
+  user: IUser;
+  activationLink: string;
+}> => {
   const user = await User.create(userData);
 
   const { activationLink } = generateActivateToken(user);

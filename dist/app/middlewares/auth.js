@@ -19,7 +19,8 @@ const jwtHelpers_1 = require("../../helpers/jwtHelpers");
 const auth = (...requiredRoles) => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //get authorization token
-        const token = req.cookies.accessToken || req.headers.authorization;
+        const token = req.cookies.accessToken;
+        console.log(token);
         if (!token) {
             throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'You are not authorized');
         }

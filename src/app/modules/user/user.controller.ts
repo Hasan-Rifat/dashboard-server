@@ -19,7 +19,7 @@ const login = catchAsync(async (req, res) => {
 
   const cookieOptions = {
     secure: config.env === 'production',
-    httpOnly: true,
+    httpOnly: false,
   };
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -46,6 +46,7 @@ const logOut = catchAsync(async (req, res) => {
 
 const refreshAccessToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
+  console.log(req.cookies);
 
   const result = await UserService.refreshAccessToken(refreshToken);
 
@@ -95,6 +96,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 
     const { user, activationLink } = await UserService.createUser(req.body);
     await sendVerifyMail(user.name, user.email, activationLink);
+
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,
