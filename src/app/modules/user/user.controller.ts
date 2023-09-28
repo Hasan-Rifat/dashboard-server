@@ -8,15 +8,22 @@ import cloudinary from '../../../shared/cloudinary';
 import sendVerifyMail from '../../../shared/sendVerifyMail';
 import { payload } from './user.interface';
 
+import { CookieOptions } from 'express';
+
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const result = await UserService.login(email, password);
 
   const { accessToken, refreshToken, user } = result;
 
-  const cookieOptions = {
-    secure: config.env === 'production',
+  const cookieOptions: CookieOptions = {
+    expires: new Date(
+      Date.now() + Number(config.jwt.expires_in) * 60 * 60 * 1000
+    ),
+    maxAge: Number(config.jwt.expires_in) * 60 * 60 * 1000,
     httpOnly: true,
+    sameSite: 'lax',
+    secure: config.env === 'production',
   };
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -49,10 +56,14 @@ const refreshAccessToken = catchAsync(async (req, res) => {
 
   const { accessToken } = result;
 
-  const cookieOptions = {
+  const cookieOptions: CookieOptions = {
+    expires: new Date(
+      Date.now() + Number(config.jwt.expires_in) * 60 * 60 * 1000
+    ),
+    maxAge: Number(config.jwt.expires_in) * 60 * 60 * 1000,
     httpOnly: true,
-
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    secure: config.env === 'production',
   };
 
   res.cookie('accessToken', accessToken, cookieOptions);

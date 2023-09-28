@@ -25,8 +25,11 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
     const result = yield user_services_1.UserService.login(email, password);
     const { accessToken, refreshToken, user } = result;
     const cookieOptions = {
-        secure: config_1.default.env === 'production',
+        expires: new Date(Date.now() + Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000),
+        maxAge: Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000,
         httpOnly: true,
+        sameSite: 'lax',
+        secure: config_1.default.env === 'production',
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
     res.cookie('accessToken', accessToken, cookieOptions);
@@ -52,8 +55,11 @@ const refreshAccessToken = (0, catchAsync_1.default)((req, res) => __awaiter(voi
     const result = yield user_services_1.UserService.refreshAccessToken(refreshToken);
     const { accessToken } = result;
     const cookieOptions = {
+        expires: new Date(Date.now() + Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000),
+        maxAge: Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000,
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        secure: config_1.default.env === 'production',
     };
     res.cookie('accessToken', accessToken, cookieOptions);
     res.cookie('refreshToken', refreshToken, cookieOptions);
