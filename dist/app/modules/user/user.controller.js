@@ -25,11 +25,8 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
     const result = yield user_services_1.UserService.login(email, password);
     const { accessToken, refreshToken, user } = result;
     const cookieOptions = {
-        expires: new Date(Date.now() + Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000),
-        maxAge: Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: 'lax',
         secure: config_1.default.env === 'production',
+        httpOnly: true,
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
     res.cookie('accessToken', accessToken, cookieOptions);
@@ -37,7 +34,8 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'Login success',
-        token: accessToken,
+        accessToken,
+        refreshToken,
         data: user,
     });
 }));
@@ -51,15 +49,16 @@ const logOut = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
     });
 }));
 const refreshAccessToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { refreshToken } = req.cookies;
+    // const { refreshToken } = req.cookies;
+    const refreshToken = req.headers.authorization;
+    if (!refreshToken) {
+        throw new Error('Refresh token not found');
+    }
     const result = yield user_services_1.UserService.refreshAccessToken(refreshToken);
     const { accessToken } = result;
     const cookieOptions = {
-        expires: new Date(Date.now() + Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000),
-        maxAge: Number(config_1.default.jwt.expires_in) * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: 'lax',
         secure: config_1.default.env === 'production',
+        httpOnly: true,
     };
     res.cookie('accessToken', accessToken, cookieOptions);
     res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -67,6 +66,8 @@ const refreshAccessToken = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'new token create successfully',
+        accessToken,
+        refreshToken,
     });
 }));
 const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

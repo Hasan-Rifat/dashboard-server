@@ -7,8 +7,7 @@ import { Request, Response } from 'express';
 import cloudinary from '../../../shared/cloudinary';
 import sendVerifyMail from '../../../shared/sendVerifyMail';
 import { payload } from './user.interface';
-
-import { CookieOptions } from 'express';
+import { Secret } from 'jsonwebtoken';
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
@@ -16,14 +15,9 @@ const login = catchAsync(async (req, res) => {
 
   const { accessToken, refreshToken, user } = result;
 
-  const cookieOptions: CookieOptions = {
-    expires: new Date(
-      Date.now() + Number(config.jwt.expires_in) * 60 * 60 * 1000
-    ),
-    maxAge: Number(config.jwt.expires_in) * 60 * 60 * 1000,
-    httpOnly: true,
-    sameSite: 'lax',
+  const cookieOptions = {
     secure: config.env === 'production',
+    httpOnly: true,
   };
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -33,7 +27,8 @@ const login = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Login success',
-    token: accessToken,
+    accessToken,
+    refreshToken,
     data: user,
   });
 });
@@ -50,20 +45,20 @@ const logOut = catchAsync(async (req, res) => {
 });
 
 const refreshAccessToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
+  // const { refreshToken } = req.cookies;
+  const refreshToken = req.headers.authorization;
+
+  if (!refreshToken) {
+    throw new Error('Refresh token not found');
+  }
 
   const result = await UserService.refreshAccessToken(refreshToken);
 
   const { accessToken } = result;
 
-  const cookieOptions: CookieOptions = {
-    expires: new Date(
-      Date.now() + Number(config.jwt.expires_in) * 60 * 60 * 1000
-    ),
-    maxAge: Number(config.jwt.expires_in) * 60 * 60 * 1000,
-    httpOnly: true,
-    sameSite: 'lax',
+  const cookieOptions = {
     secure: config.env === 'production',
+    httpOnly: true,
   };
 
   res.cookie('accessToken', accessToken, cookieOptions);
@@ -73,6 +68,8 @@ const refreshAccessToken = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'new token create successfully',
+    accessToken,
+    refreshToken,
   });
 });
 

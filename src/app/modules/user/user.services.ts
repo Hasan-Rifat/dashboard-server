@@ -68,6 +68,7 @@ const refreshAccessToken = async (
   token: string
 ): Promise<{
   accessToken: string;
+  refreshToken: string;
 }> => {
   const user = jwtHelpers.verifyToken(
     token,
@@ -84,8 +85,16 @@ const refreshAccessToken = async (
     config.jwt.expires_in as string
   );
 
+  // create refresh token
+  const refreshToken = jwtHelpers.createToken(
+    { id: user._id, role: user.role, email: user.email },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
+
   return {
     accessToken,
+    refreshToken,
   };
 };
 

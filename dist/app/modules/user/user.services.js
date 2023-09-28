@@ -53,8 +53,11 @@ const refreshAccessToken = (token) => __awaiter(void 0, void 0, void 0, function
         throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'Invalid token');
     }
     const accessToken = jwtHelpers_1.jwtHelpers.createToken({ id: user.id, email: user.email, role: user.role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    // create refresh token
+    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ id: user._id, role: user.role, email: user.email }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
     return {
         accessToken,
+        refreshToken,
     };
 });
 const createUser = (userData) => __awaiter(void 0, void 0, void 0, function* () {
