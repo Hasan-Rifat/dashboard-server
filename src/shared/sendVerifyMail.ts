@@ -24,8 +24,6 @@ const sendVerifyMail = async (name: string, email: string, token: string) => {
     };
 
     const result = await transporter.sendMail(mailOptions);
-
-    console.log(result);
   } catch (error) {}
 };
 

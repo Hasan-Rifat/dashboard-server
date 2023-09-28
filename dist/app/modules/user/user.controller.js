@@ -48,7 +48,6 @@ const logOut = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
 }));
 const refreshAccessToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { refreshToken } = req.cookies;
-    console.log(req.cookies);
     const result = yield user_services_1.UserService.refreshAccessToken(refreshToken);
     const { accessToken } = result;
     const cookieOptions = {

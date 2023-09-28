@@ -35,7 +35,6 @@ const sendVerifyMail = (name, email, token) => __awaiter(void 0, void 0, void 0,
       `,
         };
         const result = yield transporter.sendMail(mailOptions);
-        console.log(result);
     }
     catch (error) { }
 });

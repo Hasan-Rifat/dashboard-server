@@ -46,7 +46,6 @@ const logOut = catchAsync(async (req, res) => {
 
 const refreshAccessToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
-  console.log(req.cookies);
 
   const result = await UserService.refreshAccessToken(refreshToken);
 
