@@ -10,10 +10,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'https://dashboard-client-sigma.vercel.app',
-    ],
+    origin: ['http://localhost:5173', 'dashboard-client-sigma.vercel.app'],
     credentials: true,
   })
 );
